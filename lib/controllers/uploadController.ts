@@ -10,6 +10,22 @@ export class UploadController {
         res.status(200).send('done');
     }
 
+    public deleteFile(req: Request, res: Response) {
+        const filesTable = mongoose.connection.db.collection('myUploads.files');
+        const filesChunks = mongoose.connection.db.collection('myUploads.chunks');
+        filesTable.findOneAndDelete({_id: new mongoose.Types.ObjectId(req.params._id)}).then(d => {
+            filesChunks.deleteMany({files_id: new mongoose.Types.ObjectId(req.params._id)}).then(c => {
+                res.send({res: "File deleted!"});
+            }).catch(e => {
+                res.send({res: "File not found!"});
+            });
+        })
+            .catch(error => {
+                res.send({res: "File not found!"});
+            });
+
+    }
+
 
     public async loadMyPersonnelFiles(req: Request, res: Response) {
         const collection = mongoose.connection.db.collection('myUploads.files');

@@ -34,5 +34,7 @@ export class UploadRoutes {
         app.route('/upload').post(sUpload, this.uploadController.onUpload);
         app.route('/getMyPersonnelFiles/:userId').get(this.uploadController.loadMyPersonnelFiles);
         app.route('/getFile/:_id').get(this.uploadController.downloadFile);
+        app.route('/getImage/:_id').get(this.uploadController.loadImage);
+        app.route('/deleteFile/:_id').delete(this.uploadController.deleteFile);
     }
 }
